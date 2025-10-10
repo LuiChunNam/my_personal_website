@@ -22,7 +22,7 @@ function welcomeToWork1(){
 } */
 
 
-// scatterplot.js
+
 
 const data = [
     { year: 2018, type: "Film", count: 2 },
@@ -35,92 +35,109 @@ const data = [
     { year: 2025, type: "Film", count: 16 }
 ];
 
-function createScatterplot() {
-    const margin = { top: 30, right: 40, bottom: 60, left: 100 };
-    const containerWidth = 800;
-    const containerHeight = 500;
+function createDonutChart() {
+    const width = 600;
+    const height = 600;
+    const margin = 40;
+    const radius = Math.min(width, height) / 2 - margin;
 
-    const width = containerWidth - margin.left - margin.right;
-    const height = containerHeight - margin.top - margin.bottom;
-
+    // Create SVG container
     const svg = d3.select("#vis-scatterplot")
         .append("svg")
-        .attr("width", containerWidth)
-        .attr("height", containerHeight)
+        .attr("width", width)
+        .attr("height", height)
         .append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+        .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-    const xScale = d3.scaleLinear()
-        .domain([2018, 2025])
-        .range([0, width]);
+    // Color scale
+    const color = d3.scaleOrdinal()
+        .domain(data.map(d => d.year))
+        .range(d3.schemeTableau10);
 
-    const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.count)])
-        .range([height, 0]);
+    // Pie generator
+    const pie = d3.pie()
+        .value(d => d.count)
+        .sort(null);
 
-    const xAxis = d3.axisBottom(xScale)
-        .tickFormat(d3.format("d"));
+    const data_ready = pie(data);
 
-    const yAxis = d3.axisLeft(yScale);
+    // Arc generator for donut
+    const arc = d3.arc()
+        .innerRadius(radius * 0.5) // inner radius for donut hole
+        .outerRadius(radius);
 
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", `translate(0, ${height})`)
-        .call(xAxis);
+    // Arc generator for labels
+    const outerArc = d3.arc()
+        .innerRadius(radius * 0.7)
+        .outerRadius(radius * 0.7);
 
-    svg.append("g")
-        .attr("class", "y axis")
-        .call(yAxis);
-
-    svg.append("text")
-        .attr("transform", `translate(${width / 2}, ${height + margin.bottom - 10})`)
-        .style("text-anchor", "middle")
-        .text("Year");
-
-    svg.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left + 15)
-        .attr("x", 0 - (height / 2))
-        .style("text-anchor", "middle")
-        .text("Count of Creative Work");
-
-    // Add title for the scatterplot
-    svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", -10)
-        .attr("text-anchor", "middle")
-        .style("font-size", "20px")
-        .style("font-weight", "bold")
-        .text("Perfect Positive Correlation");
-
+    // Tooltip
     const tooltip = d3.select("body").append("div")
         .attr("class", "tooltip")
-        .style("opacity", 0);
+        .style("opacity", 0)
+        .style("position", "absolute")
+        .style("background", "rgba(0,0,0,0.7)")
+        .style("color", "white")
+        .style("padding", "6px 10px")
+        .style("border-radius", "5px")
+        .style("font-size", "12px")
+        .style("pointer-events", "none");
 
-    svg.selectAll(".dot")
-        .data(data)
+    // Draw slices
+    svg.selectAll('path')
+        .data(data_ready)
         .enter()
-        .append("circle")
-        .attr("class", "dot")
-        .attr("cx", d => xScale(d.year))
-        .attr("cy", d => yScale(d.count))
-        .attr("r", 5)
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', d => color(d.data.year))
+        .attr("stroke", "white")
+        .attr("stroke-width", 2)
         .on("mouseover", function(event, d) {
-            d3.select(this).attr("stroke", "darkred").attr("stroke-width", 2);
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('transform', 'scale(1.05)');
             tooltip.transition()
                 .duration(200)
-                .style("opacity", .9);
-            tooltip.html(`Year: ${d.year}<br>Count: ${d.count}`)
+                .style("opacity", 0.9);
+            tooltip.html(`Year: ${d.data.year}<br>Films: ${d.data.count}`)
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })
-        .on("mouseout", function(event, d) {
-            d3.select(this).attr("stroke", "#333").attr("stroke-width", 1);
+        .on("mouseout", function() {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('transform', 'scale(1)');
             tooltip.transition()
-                .duration(500)
+                .duration(400)
                 .style("opacity", 0);
         });
+
+    // Add labels
+    svg.selectAll('text.label')
+        .data(data_ready)
+        .enter()
+        .append('text')
+        .attr('class', 'label')
+        .attr('transform', function(d) {
+            const pos = outerArc.centroid(d);
+            return `translate(${pos[0]}, ${pos[1]})`;
+        })
+        .attr('text-anchor', 'middle')
+        .style('font-size', '12px')
+        .style('fill', '#000')
+        .text(d => `${d.data.year}: ${d.data.count} Films`);
+
+    // Add title
+    svg.append("text")
+        .attr("x", 0)
+        .attr("y", - (height / 2) + margin)
+        .attr("text-anchor", "middle")
+        .style("font-size", "20px")
+        .style("font-weight", "bold")
+        .text("Number of Films Produced Each Year");
 }
 
-// Call the function to create the scatterplot
-createScatterplot();
+// Draw the donut chart
+createDonutChart();
