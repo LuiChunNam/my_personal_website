@@ -55,6 +55,11 @@ border: solid 1px black;
     grid-row-end: 3 ;
 } */
 
+html{
+    scroll-behavior: smooth;
+    
+}
+
 .box {
 display: flex;
 }
@@ -118,7 +123,7 @@ text-decoration: none;
 color: white; 
 background-color: lightsalmon;
 padding: .75em 1em; 
-margin-top: Dem; 
+margin-top: 1em; 
 border-radius: .5em; 
 font-weight: 600;
 }
@@ -146,6 +151,8 @@ header img {
 h1 {
 font-size: 2em;
 }
+
+
 
 
 

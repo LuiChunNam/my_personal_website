@@ -1,5 +1,5 @@
 // scatterplot.js
-document.addEventListener("DOMContentLoaded", function () {
+(function () {
 
   // Example dataset
   const data = [
@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
     { year: 2023, type: "Sculpture", count: 4 },
     { year: 2023, type: "Music", count: 9 }
   ];
+
+
 
   // Dimensions
   const margin = { top: 60, right: 30, bottom: 60, left: 60 }, // increased top margin
@@ -82,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .style("font-size", "14px")
     .text("Type of Creative Work");
 
-  // ✅ Add chart title on top
+  // Add chart title on top
   svg.append("text")
     .attr("x", width / 2)
     .attr("y", -20) // position above the plot area
@@ -91,4 +93,4 @@ document.addEventListener("DOMContentLoaded", function () {
     .style("font-weight", "bold")
     .text("Creative Work Output by Year and Type");
 
-});
+})();
