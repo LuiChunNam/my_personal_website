@@ -563,6 +563,15 @@ button:focus-visible {
     }
 }
 
+/* Ensure these are NOT present or are modified if they are */
+#vis-dotmap, #vis-symbolmap {
+    /* REMOVE position: absolute; if it exists here */
+    display: block; /* Ensure they take up space */
+}
+
+#vis-dotmap svg, #vis-symbolmap svg {
+    /* REMOVE position: absolute; if it exists here */
+}
 
 /*  Color-blind friendly color palette
 
