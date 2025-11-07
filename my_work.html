@@ -1,41 +1,82 @@
-<html>
-    <head>
-        <link href="style.css" rel="stylesheet" />
-        <meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Work Scatterplot</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet" href="matrix2.css">
+    <title>Creative Work Visualizations</title>
     
-    </head>
-    <body>
-       
+    <!-- Linking external CSS files -->
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="matrix2.css"> <!-- Assumed external file for matrix styling -->
+    
+    <!-- D3.js library from CDN -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
 
+    <section id="vis-scatterplot">
+        <h2>Dynamic Scatter Plot of Creative Work Data</h2>
 
+        <div class="controls">
+            <div class="control-group">
+                <label for="x-encoding">X-axis:</label>
+                <select id="x-encoding"></select>
+            </div>
+            <div class="control-group">
+                <label for="y-encoding">Y-axis:</label>
+                <select id="y-encoding"></select>
+            </div>
+            <div class="control-group">
+                <label for="size-encoding">Size:</label>
+                <select id="size-encoding"></select>
+            </div>
+            <div class="control-group">
+                <label for="color-encoding">Color:</label>
+                <select id="color-encoding"></select>
+            </div>
+            <div class="control-group">
+                <label for="y-sort">Y-axis Sort:</label>
+                <select id="y-sort">
+                    <option value="none">None</option>
+                    <option value="alphabetic-asc">A-Z</option>
+                    <option value="alphabetic-desc">Z-A</option>
+                    <option value="count-asc">Count (Low to High)</option>
+                    <option value="count-desc">Count (High to Low)</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="aggregate-data"> Aggregate Y-axis
+                </label>
+            </div>
+        </div>
 
+        <div class="controls" style="border-bottom: none;">
+            <div class="control-group">
+                <label for="year-slider">Filter by Year:</label>
+                <input type="range" id="year-slider">
+                <span id="year-range-label"></span>
+            </div>
+            <div class="control-group" style="flex-grow: 1;">
+                <label>Filter by Type:</label>
+                <div id="type-filter"></div>
+            </div>
+        </div>
 
-
-<section id="vis-scatterplot">
-        <h2 class="chart-title">Creative Work Output by Year and Type</h2>
-        <!-- D3 Visualization will be inserted here -->
+        <div id="chart-container" class="chart-container"></div>
+        <div id="legend-container" class="legend"></div>
     </section>
 
     <section>
-    <h2>Artworks adjacency matrix</h2>
-    <div id="vis-matrix2">
-        <!-- D3 Visualization will be inserted here -->
-    </div>
-</section>
+        <h2>Artworks adjacency matrix</h2>
+        <div id="vis-matrix2">
+            <!-- D3 Visualization for the adjacency matrix will be inserted here by matrix2.js -->
+        </div>
+    </section>
 
+    <!-- Linking custom JavaScript files -->
+    <script src="scatterplot.js"></script>
+    <script src="matrix2.js"></script>
 
-
-   <script src="scatterplot.js"></script>
-
-   <script src="matrix2.js"></script>
-   
-
-
-
-    </body>
+</body>
 </html>
-

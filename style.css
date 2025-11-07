@@ -563,6 +563,103 @@ button:focus-visible {
     }
 }
 
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f9;
+}
+h2 {
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.control-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 140px;
+}
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #555;
+}
+select, input[type="range"] {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.chart-container {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-x: auto; /* Ensures chart area handles overflow if needed */
+}
+.axis-label {
+    font-size: 1.1em;
+    fill: #333;
+}
+.chart-title {
+    font-size: 1.3em;
+    font-weight: bold;
+    fill: #0056b3;
+}
+.tooltip {
+    position: absolute;
+    text-align: left;
+    width: auto;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    border: 0px;
+    border-radius: 4px;
+    pointer-events: none;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+.legend-color-box {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border: 1px solid #333;
+}
+/* Styling for checkboxes */
+#type-filter label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+}
+#type-filter input[type="checkbox"] {
+    margin-right: 5px;
+}
+
 /* Ensure these are NOT present or are modified if they are */
 #vis-dotmap, #vis-symbolmap {
     /* REMOVE position: absolute; if it exists here */
